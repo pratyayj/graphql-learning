@@ -5,6 +5,7 @@ import { FIND_PERSON } from './queries';
 // persons is the prop that is taken in
 const Persons = ({ persons }) => {
   // query event handler is getPerson and the response is stored in result
+  // execute queries in response to non-component rendering events
   const [getPerson, result] = useLazyQuery(FIND_PERSON)
   
   // initial state is null
@@ -16,8 +17,8 @@ const Persons = ({ persons }) => {
     getPerson({ variables: { nameToSearch: name } })
   }
   
-  // called when the component is assembled and updated
-  // executes the function inside it
+  // useEffect called when something in the component changes
+  // which in this case is when something is retrieved from the query
   useEffect(() => {
     if (result.data) {
       setPerson(result.data.findPerson)
