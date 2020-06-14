@@ -10,6 +10,7 @@ import { ApolloClient, HttpLink, InMemoryCache, gql, ApolloProvider } from '@apo
 const client = new ApolloClient({
   // cache speeds up the time to return execution of query that
   // don't rely on real-time data
+  // use identifying field id of type ID to check and combine if the same object is returned
   cache: new InMemoryCache(),
   link: new HttpLink({
     uri: 'http://localhost:4000',
