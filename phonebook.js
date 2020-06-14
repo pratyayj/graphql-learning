@@ -126,8 +126,8 @@ const resolvers = {
   Person: {
     address: (root) => {
       return {
-        street: "Pfefferburg St",
-        city: "Dublin"
+        street: root.street,
+        city: root.city
       }
     }
   }
