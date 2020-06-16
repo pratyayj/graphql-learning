@@ -6,6 +6,7 @@ import './PersonForm';
 import PersonForm from './PersonForm';
 import Notify from './Notify';
 import Persons from './Persons';
+import PhoneForm from './PhoneForm';
 
 function App() {
   // useQuery is the primary API for executing queries
@@ -43,6 +44,7 @@ function App() {
       <Notify errorMessage={errorMessage}></Notify>
       <Persons persons={allPersonsResult.data.allPersons}></Persons>
       <PersonForm setError={notify}></PersonForm>
+      <PhoneForm notify={notify}></PhoneForm>
     </div>
   );
 }

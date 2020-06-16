@@ -17,14 +17,13 @@ const Persons = ({ persons }) => {
     getPerson({ variables: { nameToSearch: name } })
   }
   
-  // useEffect called when something in the component changes
-  // which in this case is when something is retrieved from the query
+  // useEffect is by default called after every completed render
   useEffect(() => {
     if (result.data) {
       setPerson(result.data.findPerson)
     }
-    // optional second parameter that instructs this query
-    // to be executed again if another person is selected
+    // but an optional second parameter can be used to make the effect
+    // only be run when a specific value/prop/etc changes
   }, [result])
   
   if (person) {
