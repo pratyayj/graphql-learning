@@ -14,18 +14,22 @@ const BookView = () => {
     <div>
       <h2>Books</h2>
       <table>
-        <tr>
-          <th>Title</th>
-          <th>Author</th>
-          <th>Published</th>
-        </tr>
-        {allBooksResult.data.allBooks.map(b =>
+        <thead>
           <tr>
-            <td>{b.title}</td>
-            <td>{b.author}</td>
-            <td>{b.published}</td>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Published</th>
           </tr>
-        )}
+        </thead>
+        <tbody>
+          {allBooksResult.data.allBooks.map(b =>
+            <tr key={b.title}>
+              <td>{b.title}</td>
+              <td>{b.author}</td>
+              <td>{b.published}</td>
+            </tr>
+          )}
+        </tbody>
       </table>
     </div>
   )

@@ -14,18 +14,22 @@ const AuthorView = () => {
     <div>
       <h2>Authors</h2>
       <table>
-        <tr>
-          <th>Name</th>
-          <th>Born</th>
-          <th>Book Count</th>
-        </tr>
-        {allAuthorsResult.data.allAuthors.map(a =>
+        <thead>
           <tr>
-            <td>{a.name}</td>
-            <td>{a.born}</td>
-            <td>{a.bookCount}</td>
+            <th>Name</th>
+            <th>Born</th>
+            <th>Book Count</th>
           </tr>
-        )}
+        </thead>
+        <tbody>
+          {allAuthorsResult.data.allAuthors.map(a =>
+            <tr key={a.name}>
+              <td>{a.name}</td>
+              <td>{a.born}</td>
+              <td>{a.bookCount}</td>
+            </tr>
+          )}
+        </tbody>
       </table>
     </div>
   )
