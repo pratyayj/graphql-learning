@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import BookView from './BookView';
 import AuthorView from './AuthorView';
@@ -29,7 +28,7 @@ function App() {
       <button onClick={() => changeTab('authors')}>authors</button>
       <button onClick={() => changeTab('books')}>books</button>
       <button onClick={() => changeTab('add book')}>add book</button>
-      { tab === 'authors' ? <AuthorView></AuthorView> : null }
+      { tab === 'authors' ? <AuthorView setError={notify}></AuthorView> : null }
       { tab === 'books' ? <BookView></BookView> : null }
       { tab === 'add book' ? <BookForm setError={notify}></BookForm> : null }
     </div>
