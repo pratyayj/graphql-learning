@@ -35,8 +35,21 @@ const CREATE_BOOK = gql`
   }
 `
 
+const UPDATE_AUTHOR = gql`
+  mutation updateAuthor($name: String!, $bornYear: Int!) {
+    editAuthor(
+      name: $name,
+      setBornTo: $bornYear
+    ) {
+      name
+      born
+    }
+  }
+`
+
 export {
   ALL_AUTHORS,
   ALL_BOOKS,
-  CREATE_BOOK
+  CREATE_BOOK,
+  UPDATE_AUTHOR
 }
