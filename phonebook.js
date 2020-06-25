@@ -92,7 +92,7 @@ const typeDefs = gql`
 // corresponds to the queries defined in the schema above
 const resolvers = {
   Query: {
-    personCount: () => persons.length,
+    personCount: () => Person.collection.countDocuments(),
     allPersons: (root, args) => {
       if (!args.phone) {
         return Person.find({});
@@ -104,33 +104,43 @@ const resolvers = {
     },
     // args are the parameters of the query
     findPerson: (root, args) =>
-      persons.find(p => p.name === args.name)
+      Person.findOne({ name: args.name })
+  },
+  Person: {
+    address: root => {
+      return {
+        street: root.street,
+        city: root.city
+      }
+    }
   },
 
   // operations that cause a change
   Mutation: {
-    addPerson: (root, args) => {
-      // ensure unique name
-      if (persons.find(p => p.name === args.name)) {
-        throw new UserInputError('Name must be unique', {
-          invalidArgs: args.name
+    addPerson: async (root, args) => {
+      const person = new Person({ ...args })
+
+      try {
+        await person.save()
+      } catch (error) {
+        throw new UserInputError(error.message, {
+          invalidArgs: args,
         })
       }
-
-      const person = { ...args, id: uuid() }
-      persons = persons.concat(person)
       return person
-    },
-    editNumber: (root, args) => {
-      const person = persons.find((person) => person.name === args.name);
-      if (!person) {
-        return null
-      }
+  },
+    editNumber: async (root, args) => {
+      const person = await Person.findOne({ name: args.name })
+      person.phone = args.phone
 
-      const updatedPerson = { ...person, phone: args.phone };
-      // find person with the name in question and replace with updated
-      persons = persons.map(person => person.name === args.name ? updatedPerson : person);
-      return updatedPerson;
+      try {
+        await person.save()
+      } catch (error) {
+        throw new UserInputError(error.message, {
+          invalidArgs: args,
+        })
+      }
+      return person
     }
   },
 
