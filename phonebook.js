@@ -1,6 +1,25 @@
 const { ApolloServer, UserInputError, gql } = require('apollo-server')
 const { v1: uuid } = require('uuid')
+const mongoose = require('mongoose')
+const Person = require('./models/person')
 
+require('dotenv').config()
+
+mongoose.set('useFindAndModify', false)
+
+const MONGODB_URI = process.env.MONGODB_URI
+
+console.log('connecting to', MONGODB_URI)
+
+mongoose.connect(MONGODB_URI, { useNewUrlParser: true })
+  .then(() => {
+    console.log('connected to MongoDB')
+  })
+  .catch((error) => {
+    console.log('error connection to MongoDB:', error.message)
+  })
+
+/*
 let persons = [
   {
     name: "Arto Hellas",
@@ -23,6 +42,7 @@ let persons = [
     id: '3d599471-3436-11e9-bc57-8b80ba54c431'
   },
 ]
+*/
 
 // GraphQL schema
 // IMPT: schema here does not have to match how data is stored!
@@ -75,12 +95,11 @@ const resolvers = {
     personCount: () => persons.length,
     allPersons: (root, args) => {
       if (!args.phone) {
-        return persons;
+        return Person.find({});
       }
-
-      const byPhone = (person) =>
-      args.phone === 'YES' ? person.phone : !person.phone
-      return persons.filter(byPhone)
+      // condition on which Mongo returns documents
+      // if phone arg is present find documents with that key-value pair
+      return Person.find({ phone: { $exists: args.phone === 'YES'  }})
 
     },
     // args are the parameters of the query
